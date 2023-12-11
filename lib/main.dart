@@ -1,8 +1,13 @@
 import 'package:assignment_akij/view/screens/home/home_screen.dart';
+import 'package:assignment_akij/view/screens/qrcode/qrcode_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'dart:developer';
+import 'dart:io';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:flutter/foundation.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +39,8 @@ class MyApp extends StatelessWidget {
             ),
             initialRoute: HomeScreen.routeName,
             getPages: [
-             GetPage(name: HomeScreen.routeName, page: ()=>HomeScreen())
+             GetPage(name: HomeScreen.routeName, page: ()=>HomeScreen()),
+             GetPage(name: QrcodeScreen.routeName, page: ()=>QrcodeScreen()),
 
             ],
           );
@@ -42,6 +48,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
 
