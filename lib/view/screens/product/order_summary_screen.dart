@@ -1,6 +1,7 @@
 
 
 
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import '../../../utils/app_textstyle/app_text_style.dart';
 import 'order_form.dart';
 
 class OrderSummaryScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> allOrders;
+  final List<Map<String, dynamic>> ? allOrders;
   OrderSummaryScreen(this.allOrders);
 
 
@@ -21,8 +22,11 @@ class OrderSummaryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final OrderFormController controller = Get.find<OrderFormController>();
+    // Use the controller to get the allOrders list
+    List<Map<String, dynamic>> allOrders = controller.allOrders;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Order Summary'),
         actions: [
           TextButton(
@@ -41,35 +45,33 @@ class OrderSummaryScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('All Orders:',  style: myStyleRoboto(14.sp,Colors.black87,FontWeight.w600)),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: allOrders.length,
-                  itemBuilder: (context, index) {
-                    var orderData = allOrders[index];
-                    String jsonOrder = jsonEncode(orderData);
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Order ${index + 1}:',
-                            style: myStyleRoboto(16.sp,Colors.black87,FontWeight.w600)
-                        ),
-                        Text(
-                            jsonOrder,
-                            style: myStyleRoboto(12.sp,Colors.black87,FontWeight.w400)
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('All Orders:',  style: myStyleRoboto(14.sp,Colors.black87,FontWeight.w600)),
+            Expanded(
+              child: ListView.builder(
+                itemCount: allOrders.length,
+                itemBuilder: (context, index) {
+                  var orderData = allOrders[index];
+                  String jsonOrder = jsonEncode(orderData);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Order ${index + 1}:',
+                          style: myStyleRoboto(16.sp,Colors.black87,FontWeight.w600)
+                      ),
+                      Text(
+                          jsonOrder,
+                          style: myStyleRoboto(12.sp,Colors.black87,FontWeight.w500)
+                      ),
+                      Divider(),
+                    ],
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

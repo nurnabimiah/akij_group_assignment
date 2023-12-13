@@ -11,6 +11,7 @@
 
 import 'package:assignment_akij/utils/app_colors/app_colors.dart';
 import 'package:assignment_akij/utils/app_textstyle/app_text_style.dart';
+import 'package:assignment_akij/view/widgets/custom_textform_filed_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -328,7 +329,11 @@ class _OrderFormState extends State<OrderForm> {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Order Form'),
+            title: Text('Order Form',style: myStyleRoboto(16.sp, Colors.black87,FontWeight.w600),),
+            backgroundColor: Colors.blue.withOpacity(0.8),
+
+
+
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -337,26 +342,27 @@ class _OrderFormState extends State<OrderForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextFormField(
-                    controller: shopNameController,
-                    decoration: InputDecoration(labelText: 'Shop Name'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the shop name';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: phoneNumberController,
-                    decoration: InputDecoration(labelText: 'Phone Number'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter the phone number';
-                      }
-                      return null;
-                    },
-                  ),
+                   CustomTextFormFiledWidget(
+                       controller: shopNameController,
+                       hintText: 'Shop Name',
+                       textFormFiledValidator: (value) {
+                         if (value == null || value.isEmpty) {
+                           return 'Please enter the shop name';
+                         }
+                         return null;
+                       }),
+                  SizedBox(height: 10),
+                  CustomTextFormFiledWidget(
+                      keybordType: TextInputType.number,
+                      controller: phoneNumberController,
+                      hintText: 'Phone Number',
+                      textFormFiledValidator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter the phone number';
+                        }
+                        return null;
+                      }),
+
                   SizedBox(height: 10),
                   Text('Items:'),
                   Expanded(
@@ -379,6 +385,8 @@ class _OrderFormState extends State<OrderForm> {
                       child: Text('Add Item'),
                     ),
                   SizedBox(height: 20),
+
+
                   ElevatedButton(
                    // onPressed: () => controller.submitOrder(context),
                     onPressed: () {

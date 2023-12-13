@@ -8,7 +8,7 @@
 
 
     <application
-        android:label="assignment_akij"
+        android:label="Assignment"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -41,7 +41,6 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="YOUR_GOOGLE_API_KEY_HERE"/>
 
-
-
     </application>
+
 </manifest>

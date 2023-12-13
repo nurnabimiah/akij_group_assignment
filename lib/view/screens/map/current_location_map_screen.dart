@@ -1,84 +1,39 @@
-import 'dart:async';
+
 import 'dart:convert';
 import 'dart:math' show asin, atan2, cos, pi, sin, sqrt;
+import 'package:assignment_akij/utils/app_textstyle/app_text_style.dart';
 import 'package:assignment_akij/view/screens/map/punch_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:http/http.dart' as http;
 
-class CurrentLocationMapScreen extends StatefulWidget {
-  final double? latitude,longitude;
-  Position? currentLocation;
+import '../../../controller/map_controller.dart';
 
-   CurrentLocationMapScreen({Key? key, required this.latitude, required this.longitude,required this.currentLocation});
 
-  @override
-  State<CurrentLocationMapScreen> createState() => CurrentLocationMapScreenState();
-}
 
-class CurrentLocationMapScreenState extends State<CurrentLocationMapScreen> {
+class CurrentLocationMapScreen extends StatelessWidget {
 
-  final double targetLat = 23.7544134; // Replace with your target latitude
-  final double targetLon = 90.3788025; // Replace with your target longitude
+  static const String routeName ='/map_route';
 
-  bool isWithinRadius(Position position, double radius) {
-    double distance = calculateDistance(
-        position.latitude, position.longitude, targetLat, targetLon);
+  final double? latitude, longitude;
+  final Position? currentLocation;
 
-    print("Distance from target: $distance");
+  CurrentLocationMapScreen({
+    Key? key,
+    required this.latitude,
+    required this.longitude,
+    required this.currentLocation,
+  }) : super(key: key);
 
-    return distance <= radius;
-  }
-
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const double earthRadius = 6371000.0; // in meters
-
-    double dLat = _toRadians(lat2 - lat1);
-    double dLon = _toRadians(lon2 - lon1);
-
-    double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(_toRadians(lat1)) * cos(_toRadians(lat2)) * sin(dLon / 2) * sin(dLon / 2);
-    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    return earthRadius * c;
-  }
-
-  double _toRadians(double degree) {
-    return degree * (pi / 180.0);
-  }
-
-  void punchActionApiCall(dynamic lat, dynamic long) async {
-    final String apiUrl = 'https://www.akijpipes.com/api/lat-long';
-    final int userId = 111; // Replace with the actual user ID
-
-    final Map<String, dynamic> data = {
-      'user_id': userId,
-      'lat': lat,
-      'long': long,
-    };
-
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      body: jsonEncode(data),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      print('API response: ${response.body}');
-    } else {
-      print('Failed to post data. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      // Handle error as needed
-    }
-  }
+  final MapController mapController = Get.put(MapController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: Colors.blue.withOpacity(0.8),
         title: Text('Map'),
@@ -87,28 +42,26 @@ class CurrentLocationMapScreenState extends State<CurrentLocationMapScreen> {
           TextButton(onPressed: (){
             Get.toNamed(PunchListScreen.routeName);
           },
-              child: Text('Punch list')
+              child: Text('Punch list',style: myStyleRoboto(16.sp, Colors.white,FontWeight.w600),)
           )
         ],
 
 
       ),
 
-
-
-      body:SfMaps(
+      body: SfMaps(
         layers: [
           MapTileLayer(
             zoomPanBehavior: MapZoomPanBehavior(),
             initialFocalLatLng: MapLatLng(
-                widget.latitude!, widget.longitude!),
+              latitude!, longitude!),
             initialZoomLevel: 9,
             initialMarkersCount: 1,
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             markerBuilder: (BuildContext context, int index) {
               return MapMarker(
-                latitude: widget.latitude!,
-                longitude: widget.longitude!,
+                latitude: latitude!,
+                longitude:longitude!,
                 child: Icon(
                   Icons.location_on,
                   color: Colors.red[800],
@@ -120,18 +73,26 @@ class CurrentLocationMapScreenState extends State<CurrentLocationMapScreen> {
         ],
       ),
 
-
-      floatingActionButton: widget.currentLocation != null &&
-          isWithinRadius(widget.currentLocation!, 100.0) ?
-      FloatingActionButton(
+      floatingActionButton: currentLocation != null &&
+          mapController.isWithinRadius(currentLocation!, 100.0)
+          ? FloatingActionButton(
         backgroundColor: Colors.red,
         onPressed: () {
-          punchActionApiCall(widget.latitude,widget.longitude);
+          mapController.punchActionApiCall(latitude!, longitude!);
+          Get.snackbar(
+            'Message',
+            'You have punched the button!',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.blue, // Customize the background color
+            colorText: Colors.white, // Customize the text color
+          );
         },
-        child: Icon(Icons.add,color: Colors.white,),
-      ):SizedBox.shrink(),
-
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      )
+          : SizedBox.shrink(),
     );
   }
-
 }

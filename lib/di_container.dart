@@ -3,7 +3,6 @@
 
 
 import 'package:assignment_akij/controller/map_controller.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,5 +26,5 @@ Future<void> init() async {
   /// External pocket lock
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => Dio());
+ // sl.registerLazySingleton(() => Dio());
 }
