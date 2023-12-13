@@ -1,11 +1,15 @@
 
 
-import 'package:assignment_akij/view/screens/product_order_screen/product_order_screen.dart';
+import 'package:assignment_akij/view/screens/map/map_screen.dart';
 import 'package:assignment_akij/view/screens/qrcode/qrcode_screen.dart';
-import 'package:assignment_akij/view/widgets/custom_button.dart';
+import 'package:assignment_akij/view/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../map/location_page.dart';
+import '../product/order_form.dart';
+import '../product/product_order_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/home_route';
@@ -34,7 +38,9 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 15.h,),
 
             //............google map............................................
-            CustomButton(buttonText: 'Google Map', onTap: () {  },),
+            CustomButton(buttonText: 'Google Map', onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>CurrentLocationScreen()));
+            },),
             SizedBox(height: 15.h,),
 
 
