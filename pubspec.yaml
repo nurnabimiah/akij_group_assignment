@@ -36,18 +36,18 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.9.0
-  google_fonts: ^6.1.0
+  google_fonts:
   qr_code_scanner: ^1.0.1
   google_maps_flutter: ^2.5.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
   dio: 4.0.6
+
+
   http:
   permission_handler: ^6.0.1
   shared_preferences: ^2.2.2
-  syncfusion_flutter_maps:
-
-  camera:
+  syncfusion_flutter_maps: ^20.4.53
   get:
   get_it:
 
