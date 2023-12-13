@@ -1,23 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math' show asin, atan2, cos, pi, sin, sqrt;
+import 'package:assignment_akij/view/screens/map/punch_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:http/http.dart' as http;
 
-class MapSample extends StatefulWidget {
+class CurrentLocationMapScreen extends StatefulWidget {
   final double? latitude,longitude;
   Position? currentLocation;
 
-   MapSample({Key? key, required this.latitude, required this.longitude,required this.currentLocation});
+   CurrentLocationMapScreen({Key? key, required this.latitude, required this.longitude,required this.currentLocation});
 
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<CurrentLocationMapScreen> createState() => CurrentLocationMapScreenState();
 }
 
-class MapSampleState extends State<MapSample> {
+class CurrentLocationMapScreenState extends State<CurrentLocationMapScreen> {
 
   final double targetLat = 23.7544134; // Replace with your target latitude
   final double targetLon = 90.3788025; // Replace with your target longitude
@@ -65,11 +67,8 @@ class MapSampleState extends State<MapSample> {
     );
 
     if (response.statusCode == 200) {
-      // Successfully posted data to the API
       print('API response: ${response.body}');
-      // Add any additional logic you need after a successful request
     } else {
-      // Error occurred during the HTTP request
       print('Failed to post data. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
       // Handle error as needed
@@ -79,6 +78,23 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.withOpacity(0.8),
+        title: Text('Map'),
+
+        actions: [
+          TextButton(onPressed: (){
+            Get.toNamed(PunchListScreen.routeName);
+          },
+              child: Text('Punch list')
+          )
+        ],
+
+
+      ),
+
+
 
       body:SfMaps(
         layers: [

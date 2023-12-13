@@ -2,6 +2,7 @@
 
 
 
+import 'package:assignment_akij/controller/map_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +19,7 @@ Future<void> init() async {
 
   /// Controller
   Get.lazyPut(() => OrderFormController(), fenix: true);
+  Get.lazyPut(() => MapController(), fenix: true);
 
 
 

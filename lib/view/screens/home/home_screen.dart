@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var lat = position.latitude;
     var lon = position.longitude;
     Navigator.push(context,
-        MaterialPageRoute(builder: (_) => MapSample(latitude: lat, longitude: lon,currentLocation: currentLocation,)));
+        MaterialPageRoute(builder: (_) => CurrentLocationMapScreen(latitude: lat, longitude: lon,currentLocation: currentLocation,)));
   }
 
   @override
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         // Operation completed, navigate to the next screen
-                        return MapSample(
+                        return CurrentLocationMapScreen(
                           latitude: currentLocation?.latitude ?? 0,
                           longitude: currentLocation?.longitude ?? 0,
                           currentLocation: currentLocation,

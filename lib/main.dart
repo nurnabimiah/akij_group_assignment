@@ -1,4 +1,5 @@
 import 'package:assignment_akij/view/screens/home/home_screen.dart';
+import 'package:assignment_akij/view/screens/map/punch_list_screen.dart';
 import 'package:assignment_akij/view/screens/qrcode/qrcode_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             getPages: [
              GetPage(name: HomeScreen.routeName, page: ()=>HomeScreen()),
              GetPage(name: QrcodeScreen.routeName, page: ()=>QrcodeScreen()),
+             GetPage(name: PunchListScreen.routeName, page: ()=>PunchListScreen()),
 
             ],
           );
