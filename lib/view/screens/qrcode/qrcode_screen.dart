@@ -1,8 +1,10 @@
 
 
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:assignment_akij/utils/app_textstyle/app_text_style.dart';
+import 'package:assignment_akij/view/screens/qrcode/qrcode_result.dart';
 import 'package:assignment_akij/view/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,6 +24,7 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  bool isResultHandled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
 
             result != null ? Expanded(child: Center(
                 child: Text(
-                  'Barcode Result: ${result!.code}',
+                  'Qrcode Result: ${result!.code}',
                   style: myStyleRoboto(18.sp, Colors.black87, FontWeight.w600),
                 ),
               ),
@@ -74,13 +77,12 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
+
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
         MediaQuery.of(context).size.height < 400)
         ? 300.0
         : 320.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
+
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -94,6 +96,7 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
     );
   }
 
+
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -101,9 +104,23 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if (result != null && !isResultHandled) {
+          isResultHandled = true; // Set the flag to true
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ResultPage(
+                qrCodeResult: result!.code.toString(),
+              ),
+            ),
+          );
+        }
       });
     });
   }
+
+
+
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
@@ -122,6 +139,9 @@ class _QrcodeScreenState extends State<QrcodeScreen> {
 
 
 }
+
+
+
 
 
 

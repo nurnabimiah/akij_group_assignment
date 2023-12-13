@@ -1,26 +1,64 @@
 
 
 
+
+
 import 'package:flutter/material.dart';
 
-class QrCodeResult extends StatelessWidget {
-  String? result;
-  QrCodeResult({Key? key,this.result}) : super(key: key);
+
+class ResultPage extends StatelessWidget {
+  final String qrCodeResult;
+   // Provide the path or URL of the scanned object image
+
+  ResultPage({required this.qrCodeResult});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.blue.withOpacity(0.8),
+        automaticallyImplyLeading: false,
         title: Text('QR Code Result'),
-        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'QR Code Result:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              qrCodeResult,
+              style: TextStyle(fontSize: 18),
+            ),
+            // SizedBox(height: 20),
+            // Text(
+            //   'Scanned Object Image:',
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
+            // Image.memory(
+            //   scannedObjectImage as Uint8List,
+            //   width: 200,
+            //   height: 200,
+            //   // You can adjust the width and height as needed
+            // ),
+          ],
+        ),
       ),
 
 
-      body: Column(
-
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue.withOpacity(0.5),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Icon(Icons.arrow_back),
       ),
+
+
+
+
 
     );
   }

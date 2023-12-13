@@ -334,71 +334,69 @@ class _OrderFormState extends State<OrderForm> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      controller: shopNameController,
-                      decoration: InputDecoration(labelText: 'Shop Name'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the shop name';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: phoneNumberController,
-                      decoration: InputDecoration(labelText: 'Phone Number'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the phone number';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 10),
-                    Text('Items:'),
-                    Expanded(
-                      child: Obx(
-                            () => ListView.builder(
-                          itemCount: controller.items.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(controller.items[index].itemName),
-                              subtitle:
-                              Text('Quantity: ${controller.items[index].quantity}'),
-                            );
-                          },
-                        ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    controller: shopNameController,
+                    decoration: InputDecoration(labelText: 'Shop Name'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter the shop name';
+                      }
+                      return null;
+                    },
+                  ),
+                  TextFormField(
+                    controller: phoneNumberController,
+                    decoration: InputDecoration(labelText: 'Phone Number'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter the phone number';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  Text('Items:'),
+                  Expanded(
+                    child: Obx(
+                          () => ListView.builder(
+                        itemCount: controller.items.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(controller.items[index].itemName),
+                            subtitle:
+                            Text('Quantity: ${controller.items[index].quantity}'),
+                          );
+                        },
                       ),
                     ),
-                    if (controller.items.length < 10)
-                      ElevatedButton(
-                        onPressed: () => controller.addItem(context),
-                        child: Text('Add Item'),
-                      ),
-                    SizedBox(height: 20),
+                  ),
+                  if (controller.items.length < 10)
                     ElevatedButton(
-                     // onPressed: () => controller.submitOrder(context),
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          Map<String, dynamic> orderData = {
-                            'shopName': shopNameController.text,
-                            'phoneNumber': phoneNumberController.text,
-                            'items': controller.items.map((item) => item.toJson()).toList(),
-                          };
-
-                         controller.allOrders.add(orderData);
-
-                          Get.to(() => OrderSummaryScreen(controller.allOrders));
-                        }
-                      },
-                      child: Text('Submit Order'),
+                      onPressed: () => controller.addItem(context),
+                      child: Text('Add Item'),
                     ),
-                  ],
-                ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                   // onPressed: () => controller.submitOrder(context),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        Map<String, dynamic> orderData = {
+                          'shopName': shopNameController.text,
+                          'phoneNumber': phoneNumberController.text,
+                          'items': controller.items.map((item) => item.toJson()).toList(),
+                        };
+
+                       controller.allOrders.add(orderData);
+
+                        Get.to(() => OrderSummaryScreen(controller.allOrders));
+                      }
+                    },
+                    child: Text('Submit Order'),
+                  ),
+                ],
               ),
             ),
           ),
