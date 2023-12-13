@@ -4,7 +4,6 @@
 import 'package:assignment_akij/view/screens/qrcode/qrcode_screen.dart';
 import 'package:assignment_akij/view/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -12,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
-import '../map/MapExample.dart';
+import '../map/current_location_map_screen.dart';
 import '../product/order_form.dart';
 
 
